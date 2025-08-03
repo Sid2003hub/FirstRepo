@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    header, section, footer {
+      margin-bottom: 30px;
+    }
+    h1, h2, h3 {
+      color: #333;
+    }
+    button {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Siddharth</h1>
+    <p class="tagline">Web Developer | Designer | Creator</p>
+  </header>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm a passionate developer with experience in building websites and web applications. I enjoy turning ideas into reality using code and design.</p>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML &amp; CSS</li>
+      <li>JavaScript</li>
+      <li>React</li>
+      <li>Git &amp; GitHub</li>
+      <li>Responsive Design</li>
+    </ul>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <h2>Projects</h2>
+
+    <div class="project">
+      <h3>1. Personal Portfolio Website</h3>
+      <p>This project is a personal portfolio website designed using HTML, CSS, and JavaScript. It serves as an online resume to showcase a student’s skills, educational background, projects, and contact information. The website is structured into different sections including About Me, Skills, Projects, Resume, and Contact. Additional features like responsive design, light/dark mode toggle, and smooth scrolling are implemented to improve user experience. The portfolio is fully responsive and can be hosted online using GitHub Pages for easy access and sharing.</p>
+    </div>
+
+    <div class="project">
+      <h3>2. Task Tracker Web App</h3>
+      <p>The Task Tracker Web App is a simple productivity tool developed using HTML, CSS, and JavaScript. It allows users to create, edit, delete, and mark tasks as complete. All tasks are stored in the browser’s localStorage, so they remain saved even after refreshing the page. The app helps users manage their daily tasks efficiently and is built with a user-friendly interface. This project introduces concepts like DOM manipulation, event handling, and data persistence in web development.</p>
+    </div>
+  </section>
+
+  <!-- Resume Section -->
+  <section id="resume">
+    <h2>Resume</h2>
+    <button onclick="downloadResume()">Download My Resume (Text)</button>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: your.email@example.com</p>
+    <p>Phone: +123 456 7890</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Siddharth. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function downloadResume() {
+      const resumeContent = `
+Siddharth
+Web Developer | Designer | Creator
+
+Email: your.email@example.com
+Phone: +123 456 7890
+
+Objective:
+To apply my web development and design skills to create engaging, responsive websites and applications.
+
+Skills:
+- HTML & CSS
+- JavaScript
+- React
+- Git & GitHub
+- Responsive Design
+
+Projects:
+1. Personal Portfolio Website
+A personal portfolio website built using HTML, CSS, and JavaScript. It includes sections for bio, projects, resume, and contact, with responsive design and user-friendly features.
+
+2. Task Tracker Web App
+A simple task manager app using HTML, CSS, and JavaScript with localStorage. Allows users to add, delete, and mark tasks as completed, improving productivity.
+
+Education:
+B.E. – 2nd Year
+
+`;
+
+      const blob = new Blob([resumeContent], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'resume.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+
+</body>
+</html>
