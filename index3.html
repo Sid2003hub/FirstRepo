@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculator - Updated Layout</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .calculator {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    width: 320px;
+  }
+
+  .display {
+    background: #222;
+    color: #fff;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: right;
+    margin-bottom: 20px;
+    min-height: 50px;
+    word-wrap: break-word;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 8px;
+  }
+
+  button {
+    padding: 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #e0e0e0;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+
+  button:hover {
+    background: #d1d1d1;
+  }
+
+  button.operator {
+    background: #ff9500;
+    color: white;
+  }
+
+  button.operator:hover {
+    background: #cc7a00;
+  }
+
+  button.equal {
+    background: #007aff;
+    color: white;
+  }
+
+  button.equal:hover {
+    background: #005ecb;
+  }
+
+  button.clear {
+    background: #ff3b30;
+    color: white;
+  }
+
+  button.clear:hover {
+    background: #b22a23;
+  }
+
+  /* Zero spans two columns */
+  button.zero {
+    grid-column: span 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  <div id="display" class="display">0</div>
+  <div class="buttons">
+    <!-- Row 1 -->
+    <button class="clear" id="clear">C</button>
+    <button data-num="%" class="operator">%</button>
+    <button class="operator">÷</button>
+    <button class="operator">×</button>
+
+    <!-- Row 2 -->
+    <button data-num="7">7</button>
+    <button data-num="8">8</button>
+    <button data-num="9">9</button>
+    <button class="operator">−</button>
+
+    <!-- Row 3 -->
+    <button data-num="4">4</button>
+    <button data-num="5">5</button>
+    <button data-num="6">6</button>
+    <button data-num=".">.</button>
+
+    <!-- Row 4 -->
+    <button data-num="1">1</button>
+    <button data-num="2">2</button>
+    <button data-num="3">3</button>
+    <button class="operator">+</button>
+
+    <!-- Row 5 -->
+    <button id="equal" class="equal">=</button>
+    <button data-num="0" class="zero">0</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById('display');
+  let expression = '';
+  let resetNext = false;
+
+  function updateDisplay() {
+    display.textContent = expression || '0';
+  }
+
+  function inputDigit(digit) {
+    if (resetNext) {
+      expression = '';
+      resetNext = false;
+    }
+    expression += digit;
+  }
+
+  function inputOperator(op) {
+    if (resetNext) {
+      resetNext = false;
+    }
+    if (expression === '') return; // no operator at start
+    const lastChar = expression.slice(-1);
+    if ('+-−×÷%'.includes(lastChar)) {
+      expression = expression.slice(0, -1) + op;
+    } else {
+      expression += op;
+    }
+  }
+
+  function clearAll() {
+    expression = '';
+    resetNext = false;
+  }
+
+  function calculate() {
+    try {
+      let safeExpression = expression
+        .replace(/÷/g, '/')
+        .replace(/×/g, '*')
+        .replace(/−/g, '-')
+        .replace(/%/g, '%'); // JS % works normally
+      // eslint-disable-next-line no-eval
+      let result = eval(safeExpression);
+      if (result === Infinity || result === -Infinity) {
+        result = 'Error';
+      }
+      expression = String(result);
+      resetNext = true;
+    } catch {
+      expression = 'Error';
+      resetNext = true;
+    }
+  }
+
+  document.querySelector('.buttons').addEventListener('click', (event) => {
+    const target = event.target;
+    if (!target.matches('button')) return;
+
+    if (target.id === 'clear') {
+      clearAll();
+      updateDisplay();
+      return;
+    }
+
+    if (target.id === 'equal') {
+      calculate();
+      updateDisplay();
+      return;
+    }
+
+    if (target.classList.contains('operator')) {
+      inputOperator(target.textContent);
+      updateDisplay();
+      return;
+    }
+
+    if (target.hasAttribute('data-num')) {
+      inputDigit(target.getAttribute('data-num'));
+      updateDisplay();
+      return;
+    }
+  });
+
+  updateDisplay();
+</script>
+
+</body>
+</html>
